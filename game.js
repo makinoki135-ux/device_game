@@ -33,7 +33,7 @@ const $messageContent = document.getElementById('message-content');
  */
 function showMessage(title, detail, color = 'blue-500') {
     $messageText.textContent = title;
-    $messageDetail.textContent = detail;
+    $messageDetail.innerHTML = detail; // HTMLを受け取るように変更
     // Reset and apply color
     $messageContent.classList.remove('border-green-500', 'border-red-500', 'border-blue-500');
     $messageContent.classList.add(`border-t-4`, `border-${color}`);
@@ -179,7 +179,27 @@ function levelUp() {
 function gameOver() {
     gameActive = false;
     
-    // Highlight the correct divisors for learning
+    // エラー詳細メッセージを作成
+    const missingDivisors = Array.from(correctDivisors).filter(d => !selectedDivisors.has(d));
+    const extraneousSelections = Array.from(selectedDivisors).filter(d => !correctDivisors.has(d));
+
+    let detailHtml = `<p class="text-gray-600 mb-4">レベル ${currentNumber - 1} でゲームオーバーです。</p>`;
+    
+    if (missingDivisors.length > 0) {
+        detailHtml += `<p class="text-yellow-600 font-semibold mb-2">💡 見落とした約数:</p>`;
+        detailHtml += `<p class="text-2xl font-bold text-yellow-800 mb-4">${missingDivisors.join(', ')}</p>`;
+    }
+
+    if (extraneousSelections.length > 0) {
+        detailHtml += `<p class="text-red-600 font-semibold mb-2">❌ 間違えて選んだ数字:</p>`;
+        detailHtml += `<p class="text-2xl font-bold text-red-800 mb-4">${extraneousSelections.join(', ')}</p>`;
+    }
+    
+    if (missingDivisors.length === 0 && extraneousSelections.length === 0) {
+        detailHtml += `<p class="text-red-600 font-semibold">選択数が合いませんでしたが、エラーが見つかりませんでした。再試行してください。</p>`;
+    }
+
+    // Highlight the correct divisors for learning on the game board
     const allButtons = document.querySelectorAll('.divisor-btn');
     allButtons.forEach(btn => {
         const value = parseInt(btn.dataset.value);
@@ -199,10 +219,8 @@ function gameOver() {
         }
     });
 
-    const score = currentNumber - 1;
-    const detail = `レベル ${score} でゲームオーバーです。\n次の約数を見つけられませんでした。`;
-    
-    showMessage('ゲームオーバー', detail, 'red-500');
+    // メッセージボックスを表示
+    showMessage('ゲームオーバー', detailHtml, 'red-500');
 
     // UI変更
     $checkSelectionBtn.classList.add('hidden');
