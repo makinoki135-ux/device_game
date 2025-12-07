@@ -252,7 +252,8 @@ function restartGame() {
     updateCorrectDivisors();
     renderButtons(); // 常に再描画
 
-    showMessage('ゲーム再開', 'レベル1からスタート！頑張ってください！');
+    // タイトルを「公約数さがし」に変更
+    showMessage('公約数さがし', 'レベル1からスタート！頑張ってください！');
 }
 
 
@@ -276,7 +277,8 @@ function initGame() {
     
     // 初回ゲーム開始
     restartGame();
-    showMessage('ゲームスタート', '画面中央の数字の約数をすべて選択し、「次のレベルへ」を押してください！');
+    // タイトルを「公約数さがし」に変更
+    showMessage('公約数さがし', '画面中央の数字の約数をすべて選択し、「次のレベルへ」を押してください！');
 }
 
 // ページ全体がロードされたらinitGameを呼び出す
