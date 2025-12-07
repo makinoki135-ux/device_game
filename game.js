@@ -167,8 +167,8 @@ function levelUp() {
         updateCorrectDivisors();
         renderButtons(); // ボタンを再描画して新しい範囲に対応
         
-        // レベルアップした数字の約数表示
-        showMessage('正解！', `${currentNumber - 1}の約数(${correctDivisors.size}個)をすべて見つけました！`, 'green-500');
+        // --- 修正: 正解時のポップアップを削除 ---
+        // showMessage('正解！', `${currentNumber - 1}の約数(${correctDivisors.size}個)をすべて見つけました！`, 'green-500');
 
     }, 300);
 }
